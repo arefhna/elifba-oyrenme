@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../widgets/beautiful_card.dart';
 import 'quiz_screen.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -18,6 +19,7 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final percentage = (correct / total * 100).round();
     final stars = _getStars(percentage);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -33,16 +35,23 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(3, (i) {
-                return Icon(
-                  i < stars ? Icons.star : Icons.star_border,
-                  color: AppTheme.accentGold,
-                  size: 60,
+                return TweenAnimationBuilder<double>(
+                  duration: Duration(milliseconds: 400 + i * 200),
+                  tween: Tween(begin: 0, end: 1),
+                  curve: Curves.elasticOut,
+                  builder: (context, value, child) {
+                    return Transform.scale(scale: value, child: child);
+                  },
+                  child: Icon(
+                    i < stars ? Icons.star : Icons.star_border,
+                    color: AppTheme.accentGold,
+                    size: 70,
+                  ),
                 );
               }),
             ),
             const SizedBox(height: 24),
 
-            // Başlıq
             Text(
               percentage >= 80
                   ? '🎉 Əla!'
@@ -61,65 +70,62 @@ class ResultScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
 
-            // Statistika
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    _statRow(
-                      '✅ Düzgün',
-                      '$correct',
-                      Colors.green,
-                    ),
-                    const Divider(),
-                    _statRow(
-                      '❌ Səhv',
-                      '$wrong',
-                      Colors.red,
-                    ),
-                    const Divider(),
-                    _statRow(
-                      '📊 Uğur',
-                      '$percentage%',
-                      AppTheme.primaryGreen,
-                    ),
-                  ],
-                ),
+            BeautifulCard(
+              child: Column(
+                children: [
+                  _statRow(
+                    Icons.check_circle,
+                    'Düzgün',
+                    '$correct',
+                    Colors.green,
+                  ),
+                  Divider(
+                    color: isDark
+                        ? Colors.white.withOpacity(0.1)
+                        : Colors.grey.withOpacity(0.2),
+                  ),
+                  _statRow(
+                    Icons.cancel,
+                    'Səhv',
+                    '$wrong',
+                    Colors.red,
+                  ),
+                  Divider(
+                    color: isDark
+                        ? Colors.white.withOpacity(0.1)
+                        : Colors.grey.withOpacity(0.2),
+                  ),
+                  _statRow(
+                    Icons.percent,
+                    'Uğur',
+                    '$percentage%',
+                    AppTheme.primaryGreen,
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 32),
 
-            // Düymələr
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const QuizScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.refresh),
-                label: const Text('Yenidən cəhd et'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primaryGreen,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-              ),
+            GradientButton(
+              label: 'Yenidən cəhd et',
+              icon: Icons.refresh,
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const QuizScreen()),
+                );
+              },
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.home),
-                label: const Text('Ana səhifə'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+            TextButton.icon(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.home),
+              label: const Text('Ana səhifə'),
+              style: TextButton.styleFrom(
+                foregroundColor: AppTheme.primaryGreen,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 24,
                 ),
               ),
             ),
@@ -129,23 +135,26 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _statRow(String label, String value, Color color) {
+  Widget _statRow(IconData icon, String label, String value, Color color) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+          Icon(icon, color: color, size: 26),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           Text(
             value,
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
               color: color,
             ),
