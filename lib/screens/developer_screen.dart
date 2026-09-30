@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../widgets/beautiful_card.dart';
 
 class DeveloperScreen extends StatelessWidget {
   const DeveloperScreen({super.key});
@@ -13,139 +14,120 @@ class DeveloperScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Profil kartı
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  CircleAvatar(
+          Container(
+            padding: const EdgeInsets.all(28),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              gradient: AppTheme.greenGradient,
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.primaryGreen.withOpacity(0.4),
+                  blurRadius: 25,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppTheme.accentGold,
+                      width: 3,
+                    ),
+                  ),
+                  child: CircleAvatar(
                     radius: 50,
-                    backgroundColor: AppTheme.primaryGreen,
+                    backgroundColor: Colors.white.withOpacity(0.15),
                     child: const Icon(
                       Icons.person,
                       size: 60,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Arif Qocayev',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Arif Qocayev',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'Proqramçı',
+                  style: TextStyle(color: Colors.white70, fontSize: 15),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTheme.accentGold.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: AppTheme.accentGold,
+                      width: 1.5,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  const Text(
-                    'Proqramçı',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.accentGold.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.business,
+                        size: 18,
                         color: AppTheme.accentGold,
-                        width: 1.5,
                       ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.business,
-                          size: 18,
+                      SizedBox(width: 8),
+                      Text(
+                        'codestack.az studio',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
                           color: AppTheme.accentGold,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'codestack.az studio',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.accentGold,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
-
-          // Əlaqə
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Əlaqə',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.primaryGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _contactRow(
-                    Icons.code,
-                    'GitHub',
-                    'github.com/arefhna',
-                  ),
-                  _contactRow(
-                    Icons.language,
-                    'Veb sayt',
-                    'codestack.az',
-                  ),
-                  _contactRow(
-                    Icons.email,
-                    'Email',
-                    'arefh@codestack.az',
-                  ),
-                ],
-              ),
+          BeautifulCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _title(Icons.contact_mail, 'Əlaqə'),
+                const SizedBox(height: 12),
+                _contact(Icons.code, 'GitHub', 'github.com/arefhna'),
+                _contact(Icons.language, 'Veb sayt', 'codestack.az'),
+                _contact(Icons.email, 'Email', 'aref@codestack.az'),
+              ],
             ),
           ),
-          const SizedBox(height: 16),
-
-          // Tətbiq haqqında
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Bu tətbiq haqqında',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.primaryGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Bu tətbiq Arif Qocayev / codestack.az studio tərəfindən hazırlanmışdır. '
-                    'Ərəb əlifbasını öyrənmək istəyən hər kəs üçün pulsuz təqdim olunur.',
-                    style: TextStyle(fontSize: 15, height: 1.5),
-                  ),
-                ],
-              ),
+          const SizedBox(height: 12),
+          BeautifulCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _title(Icons.workspace_premium, 'Bu tətbiq haqqında'),
+                const SizedBox(height: 12),
+                const Text(
+                  'Bu tətbiq codestack.az studio tərəfindən hazırlanmışdır. '
+                  'Ərəb əlifbasını öyrənmək istəyən hər kəs üçün pulsuz təqdim olunur.',
+                  style: TextStyle(fontSize: 15, height: 1.6),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 24),
-
-          // Footer
           Center(
             child: Column(
               children: [
@@ -173,12 +155,35 @@ class DeveloperScreen extends StatelessWidget {
     );
   }
 
-  Widget _contactRow(IconData icon, String label, String value) {
+  Widget _title(IconData icon, String title) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppTheme.primaryGreen.withOpacity(0.15),
+          ),
+          child: Icon(icon, color: AppTheme.primaryGreen, size: 20),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _contact(IconData icon, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(icon, color: AppTheme.primaryGreen, size: 22),
+          Icon(icon, color: AppTheme.accentGold, size: 22),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -186,10 +191,7 @@ class DeveloperScreen extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 Text(
                   value,
