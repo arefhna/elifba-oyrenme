@@ -1,8 +1,6 @@
 name: Build APK
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -165,7 +163,7 @@ jobs:
             - 🔊 Səsli tələffüz
             - 📝 3 növ test rejimi
             - 🌙 Qaranlıq tema
-            - 📚 Nümunə sözlər
+            - ✨ Estetik dizayn
             - ✅ İmzalanmış APK
             
             ### Quraşdırma
