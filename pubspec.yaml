@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_tts: ^4.0.2
+  flutter_tts: ^3.8.5
   shared_preferences: ^2.2.2
 
 dev_dependencies:
@@ -27,9 +27,5 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
-  fonts:
-    - family: Amiri
-      fonts:
-        - asset: assets/fonts/Amiri-Regular.ttf
   assets:
     - icon.png
